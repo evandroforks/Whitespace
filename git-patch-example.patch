@@ -1,0 +1,80 @@
+From 59dd1886822a57d5586150c7d192da8ca944e6ea Mon Sep 17 00:00:00 2001
+From: Dominik Gehlich <niklich@gmx.de>
+Date: Mon, 31 May 2021 00:57:56 +0200
+Subject: [PATCH] sublime simple viewer for version 3 and 4
+
+---
+ PlantUmlDiagrams.sublime-settings   | 4 ++--
+ diagram/__init__.py                 | 4 ++--
+ diagram/{sublime3.py => sublime.py} | 8 ++++----
+ 3 files changed, 8 insertions(+), 8 deletions(-)
+ rename diagram/{sublime3.py => sublime.py} (62%)
+
+diff --git a/PlantUmlDiagrams.sublime-settings b/PlantUmlDiagrams.sublime-settings
+index b919133..f6de079 100644
+--- a/PlantUmlDiagrams.sublime-settings
++++ b/PlantUmlDiagrams.sublime-settings
+@@ -1,14 +1,14 @@
+ {
+     // restart sublime to apply the changes
+     //
+-    // Sublime3 - All Platforms
++    // Sublime - All Platforms
+     // Preview - OSX only `open`
+     // Quick Look - OSX only `qlmanage`
+     // EyeOfGnome - Gnome Viewer `eog`
+     // FreedesktopDefault - Linux only `xdg-open`
+     // WindowsDefaultViewer - Windows Only
+     //
+-    "viewer" : "Sublime3",
++    "viewer" : "Sublime",
+
+     // Display diagnostic (debug) messages on Sublime Text start up, about the
+     // installation state. Possible values are:
+diff --git a/diagram/__init__.py b/diagram/__init__.py
+index e632fac..725764f 100644
+--- a/diagram/__init__.py
++++ b/diagram/__init__.py
+@@ -5,7 +5,7 @@
+ from __future__ import absolute_import
+
+ from .plantuml import PlantUMLProcessor
+-from .sublime3 import Sublime3Viewer
++from .sublime import SublimeViewer
+ from .quicklook import QuickLookViewer
+ from .preview import PreviewViewer
+ from .eog import EyeOfGnomeViewer
+@@ -23,7 +23,7 @@
+
+ AVAILABLE_PROCESSORS = [PlantUMLProcessor]
+ AVAILABLE_VIEWERS = [
+-    Sublime3Viewer,
++    SublimeViewer,
+     QuickLookViewer,
+     EyeOfGnomeViewer,
+     PreviewViewer,
+diff --git a/diagram/sublime3.py b/diagram/sublime.py
+similarity index 62%
+rename from diagram/sublime3.py
+rename to diagram/sublime.py
+index f82cb3f..dfb2c03 100644
+--- a/diagram/sublime3.py  
++++ b/diagram/sublime.py
+@@ -5,13 +5,13 @@
+ from .base import BaseViewer
+ import sublime
+
+-class Sublime3Viewer(BaseViewer):
++class SublimeViewer(BaseViewer):
+ 	def __str__(self):
+-		return "Sublime 3 Simple Viewer"
++		return "Sublime Simple Viewer"
+
+ 	def load(self):
+-		if not sublime.version().startswith('3'):
+-			raise Exception("Not Sublime 3!")
++		if not sublime.version().startswith(('3','4')):
++			raise Exception("Sublime version not supported!")
+
+ 	def view(self,diagram_files):
+ 		for diagram_file in diagram_files:

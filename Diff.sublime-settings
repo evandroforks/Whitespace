@@ -1,0 +1,6 @@
+{
+    "remove_trailing_whitespace_on_save": false,
+    "ensure_single_trailing_newline": true,
+    "ignore_whitespace_only_lines": true,
+    "ignore_whitespace_on_current_line": true
+}
